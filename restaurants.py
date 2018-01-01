@@ -36,6 +36,9 @@ program produces this list:
 
 # This is the file containing the restaurant data
 FILENAME = 'restaurants_small.txt'
+# Open the file and read all contents into a list with all newlines \n removed
+with open(FILENAME) as file:
+    opened_file_list = file.read().splitlines()
 
 # This is the main program
 def recommend(file, price, cuisines_list):
@@ -68,7 +71,7 @@ def recommend(file, price, cuisines_list):
     # We're done! Return the sorted list:
     return result
 
-# This is the read_restaurants function
+# This is the read_restaurants function:
 def read_restaurants(file):
     ''' (file) -> (dict, dict, dict) 
     
@@ -79,8 +82,8 @@ def read_restaurants(file):
     - a dict of {cuisine: list of restaurant names}
     '''
     # Open the file and read all contents into a list with all newlines \n removed
-    with open(FILENAME) as file:
-        opened_file_list = file.read().splitlines()
+    #with open(FILENAME) as file:
+    #    opened_file_list = file.read().splitlines()
     
     # Initializing all required items
     i = 0
@@ -121,4 +124,12 @@ def read_restaurants(file):
     # name_to_rating = dict(zip(names_list_keys, ratings_list_values))
     
     return name_to_rating, price_to_names, cuisine_to_names
+
+# This is names_matching_price function:
+def names_matching_price(price):
+    name_to_rating, price_to_names, cuisine_to_names = read_restaurants(file) 
+    return price_to_names[price]
+
+print(names_matching_price('$'))
+
 
