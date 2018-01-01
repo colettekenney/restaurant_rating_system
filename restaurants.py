@@ -36,11 +36,18 @@ program produces this list:
 
 # This is the file containing the restaurant data
 FILENAME = 'restaurants_small.txt'
-# Open the file and read all contents into a list with all newlines \n removed
+# Open the file and read all contents into variable opened_file_list with all newlines \n removed
+# Format of opened & .splitlines() file is:
+# [i] Name
+# [i+1] Rating
+# [i+2] Price
+# [i+3] Cuisine
+# [i+4] ''
+
 with open(FILENAME) as file:
     opened_file_list = file.read().splitlines()
 
-# This is the main program
+# This is the main program, which is a restaurant recommendation function
 def recommend(file, price, cuisines_list):
     '''(file open for reading, str, list of str) -> list of [int, str] list
 
@@ -59,8 +66,7 @@ def recommend(file, price, cuisines_list):
     names_matching_price = price_to_names[price]
 
     # Now we have a list of restaurants in the right price range.
-    # Need a new list of restaurants that serve one of the cuisines
-    # from the user's provided cuisines_list.
+    # Need a new list of restaurants that serve one of the cuisines in the user's cuisines_list
     names_final = filter_by_cuisine(names_matching_price, cuisine_to_names, cuisines_list)
 
     # Now we have a list of restaurants that are in the right price range and serve
@@ -72,6 +78,10 @@ def recommend(file, price, cuisines_list):
     return result
 
 # This is the read_restaurants function:
+# It reads the file and builds the data structures:
+    # - a dict of {restaurant name: rating%}
+    # - a dict of {price: list of restaurant names}
+    # - a dict of {cuisine: list of restaurant names}
 def read_restaurants(file):
     ''' (file) -> (dict, dict, dict) 
     
@@ -126,10 +136,29 @@ def read_restaurants(file):
     return name_to_rating, price_to_names, cuisine_to_names
 
 # This is names_matching_price function:
+# Look up the list of restaurant names for the price requested.
 def names_matching_price(price):
     name_to_rating, price_to_names, cuisine_to_names = read_restaurants(file) 
-    return price_to_names[price]
+    names_matching_price = price_to_names[price]
+    return names_matching_price
 
-print(names_matching_price('$'))
+# This is the filter_by_cuisine function:
+# Now we have a list of restaurants in the right price range.
+# We want to return a new list of restaurants that serve one of the cuisines
+# from the user's provided cuisines_list.
+def filter_by_cuisine(names_matching_price, cuisine_to_names, cuisines_list):
+    names_final = []
+    names_of_cuisine = []
+    for cuisine in cuisines_list:
+        names_of_cuisine.append(cuisine_to_names[cuisine])
+        
+    for item in names_of_cuisine:
+        for subitem in item:
+            names_final.append(subitem)    
+    
+    return names_final
 
-
+names_matching_price = ['Queen St. Cafe', 'Dumplings R Us', 'Deep Fried Everything']
+cuisine_to_names = {'Canadian': ['Georgie Porgie'], 'Pub Food': ['Georgie Porgie', 'Deep Fried Everything'], 'Malaysian': ['Queen St. Cafe'], 'Thai': ['Queen St. Cafe'], 'Chinese': ['Dumplings R Us'], 'Mexican': ['Mexican Grill']}
+cuisines_list = ['Chinese', 'Thai']
+print(filter_by_cuisine(names_matching_price, cuisine_to_names, cuisines_list))
