@@ -1,22 +1,24 @@
-# names_final = []
-# names_matching_price = ['Queen St. Cafe', 'Dumplings R Us', 'Deep Fried Everything']
-# names_of_cuisine = [['Queen St. Cafe', 'Dumplings R Us', 'Deep Fried Everything'], ['Georgie Porgie']]
- 
-# for item in names_of_cuisine:
-#     j = 0
-#     k = 0
-#     for j in range(len(names_of_cuisine[j][k])):
-#         print(names_of_cuisine[j][k])
-#         if names_of_cuisine[j][k] in names_matching_price:
-#             names_final.append(names_of_cuisine[j][k])
-#             k = k + 1
-#         else:
-#             k = k + 1
-
+############################################################
+# Looping through a list of lists
 list = [['a', 'b', 'c'], ['d', 'e'], ['f']]
-
 
 for item in list:
     for subitem in item:
         print(subitem)
-        
+
+############################################################
+
+# Sorting list of inner lists at inner list position [2] 'in place' 
+# Sorting in place means that the memory address of the old list is reused
+
+l = [[0, 1, 'f'], [4, 2, 't'], [9, 4, 'afsd']]
+l.sort(key=lambda x: x[2])
+print(l)
+
+# Sorting list of inner lists at inner list position [2] 'not in place'
+# Sorting not in place means that a new memory address is used for the sorted list
+
+sorted(l, key=lambda x: x[2])
+print(l)
+
+############################################################

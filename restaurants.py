@@ -71,7 +71,7 @@ def recommend(file, price, cuisines_list):
 
     # Now we have a list of restaurants that are in the right price range and serve
     # the requested cuisine.
-    # Need to look at ratings ans sort the list by ratings.
+    # Need to look at ratings and sort the list by ratings.
     result = build_rating_list(name_to_rating, names_final)
 
     # We're done! Return the sorted list:
@@ -158,7 +158,42 @@ def filter_by_cuisine(names_matching_price, cuisine_to_names, cuisines_list):
     
     return names_final
 
-names_matching_price = ['Queen St. Cafe', 'Dumplings R Us', 'Deep Fried Everything']
-cuisine_to_names = {'Canadian': ['Georgie Porgie'], 'Pub Food': ['Georgie Porgie', 'Deep Fried Everything'], 'Malaysian': ['Queen St. Cafe'], 'Thai': ['Queen St. Cafe'], 'Chinese': ['Dumplings R Us'], 'Mexican': ['Mexican Grill']}
-cuisines_list = ['Chinese', 'Thai']
-print(filter_by_cuisine(names_matching_price, cuisine_to_names, cuisines_list))
+# I THINK YOU CAN DELETE ALL THIS, THIS WAS USED TO GET filter_by_cuisine WORKING
+    # names_matching_price = ['Queen St. Cafe', 'Dumplings R Us', 'Deep Fried Everything']
+    # cuisine_to_names = {'Canadian': ['Georgie Porgie'], 'Pub Food': ['Georgie Porgie', 'Deep Fried Everything'], 'Malaysian': ['Queen St. Cafe'], 'Thai': ['Queen St. Cafe'], 'Chinese': ['Dumplings R Us'], 'Mexican': ['Mexican Grill']}
+    # cuisines_list = ['Chinese', 'Thai']
+    # print(filter_by_cuisine(names_matching_price, cuisine_to_names, cuisines_list))
+
+# Now we have a list of restaurants that are in the right price range and serve
+# the requested cuisine.
+# Need to look at ratings and sort the list by ratings.
+def build_rating_list(name_to_rating, names_final):
+    '''(dict of {str: int}, list of str) -> list of [int, str] list
+    
+    Return a sorted list of [int, str] list where int is restaurant rating and str is restaurant name
+
+    >>>name_to_rating = {
+        'Georgie Porgie': 87, 
+        'Queen St. Cafe': 82, 
+        'Dumplings R Us': 71, 
+        'Mexican Grill': 85, 
+        'Deep Fried Everything': 52}
+    >>>names_final = ['Dumplings R Us', 'Queen St. Cafe']
+    [[82, 'Queen St. Cafe'], [71, 'Dumplings R Us']]
+    '''
+    pre_result = []
+    result = []
+    for name in names_final:
+        if name in name_to_rating:
+            pre_result.append(name_to_rating[name])
+            pre_result.append(name)
+    
+    # This groups each 2 elements in the order they appear in the pre_result list
+    result = [pre_result[i:i+2] for i in range(0, len(pre_result), 2)]
+    # This sorts the pre_result list of lists according to the the innerlist position [0]
+    result.sort(key=lambda x: x[0], reverse=True)
+    return result
+
+name_to_rating = {'Georgie Porgie': 87, 'Queen St. Cafe': 82, 'Dumplings R Us': 71, 'Mexican Grill': 85, 'Deep Fried Everything': 52}
+names_final = ['Dumplings R Us', 'Queen St. Cafe']
+print(build_rating_list(name_to_rating, names_final))
