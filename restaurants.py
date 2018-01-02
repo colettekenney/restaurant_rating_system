@@ -36,7 +36,8 @@ program produces this list:
 
 # This is the file containing the restaurant data
 FILENAME = 'restaurants_small.txt'
-#FILENAME = 'restaurants_arge.txt'
+# This is a second test file that you can use to read restaurant data
+#FILENAME = 'restaurants_large.txt'
 # Open the file and read all contents into variable opened_file_list with all newlines \n removed
 # Format of opened & .splitlines() file is:
 # [i] Name
